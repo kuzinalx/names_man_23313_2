@@ -1,0 +1,21 @@
+Николай
+Федор
+Илья
+{
+surname=Ильин
+fathername_m = Ильич
+fathername_f = Ильинична
+gender = m
+}
+Татьяна
+Михаил
+{
+surname = Михайлов
+fathername_m=Михайлович
+fathername_f=Михайловна
+}
+Анна
+Фёкла
+Валерий
+Юрий
+Юлия
