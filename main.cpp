@@ -23,21 +23,31 @@ int main(int argc, char *argv[])
 #endif
     QCoreApplication a(argc, argv);
     QCommandLineParser parser;
-    QCommandLineOption optOutFile( "o", "Задает выходной файл для записи имен", "имя файла", "" );
+
+    QCommandLineOption optOutFile( "o", "Задает выходной файл для записи сгенерированных ФИО", "имя файла", "" );
     parser.addOption( optOutFile );
-    QCommandLineOption optInFile( "i", "Задает входной файл со списком имен для проверки", "имя файла", "" );
+    QCommandLineOption optInFile( "i", "Задает входной файл со списком ФИО для проверки", "имя файла", "" );
     parser.addOption( optInFile );
     QCommandLineOption optLogFile( "g", "Задает выходной файл для записи результатов проверки", "имя файла", "" );
     parser.addOption( optLogFile );
 
+    parser.addPositionalArgument( "nameListFile", "Входной файл со словарем имен." );
     parser.process( a );
 
+    //cout << optOutFile.description() << endl;
     try {
         if ( argc < 2 )
-            Error( "Первым аргументом командной строки должно быть имя входного файла." );
-        QFile fileIn( argv[1] );
+        {
+            cout << parser.helpText() << endl;
+            return 0;
+        };
+            //Error( "Первым аргументом командной строки должно быть имя входного файла." );
+        QStringList lArgs = parser.positionalArguments();
+        if ( lArgs.size() == 0 )
+            Error( "Первым аргументом командной строки должно быть имя входного файла со словарем имен." );
+        QFile fileIn( lArgs[0] );//argv[1] );
         if ( !fileIn.open( QIODevice::ReadOnly ) )
-            Error( QString( "Не удалось открыть файл '" ) + argv[1] + "'" );
+            Error( QString( "Не удалось открыть файл '" ) + lArgs[0] /*argv[1]*/ + "'" );
         QTextStream streamIn( &fileIn );
 
         VecNameInfo info = ReadNameInfo( streamIn );
